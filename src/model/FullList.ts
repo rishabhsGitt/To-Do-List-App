@@ -12,11 +12,12 @@ interface List {
 export default class FullList implements List {
   static instance: FullList = new FullList();
 
-  private constructor(private List: ListItem[] = []) {}
+  private constructor(private _list: ListItem[] = []) {}
 
   get list(): ListItem[] {
-    return this.list;
+    return this._list;
   }
+
   load(): void {
     const storedList: string | null = localStorage.getItem("myList");
     if (typeof storedList !== "string") return;
@@ -33,6 +34,7 @@ export default class FullList implements List {
       FullList.instance.addItem(newListItem);
     });
   }
+
   save(): void {
     localStorage.setItem("myList", JSON.stringify(this._list));
   }
@@ -48,7 +50,7 @@ export default class FullList implements List {
   }
 
   removeItem(id: string): void {
-    this.list = this.list.filter((item) => item.id !== id);
+    this._list = this._list.filter((item) => item.id !== id);
     this.save();
   }
 }
